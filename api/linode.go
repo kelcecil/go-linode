@@ -3,6 +3,7 @@ package api
 import (
 	"io/ioutil"
 	"net/http"
+	"net/url"
 )
 
 type LinodeClient struct {
@@ -19,9 +20,8 @@ func NewLinodeClientWithKey(apiKey string) *LinodeClient {
 	}
 }
 
-func (c *LinodeClient) ListLinodes() ([]byte, error) {
-	response, err := http.Get(API_ENDPOINT + "/?api_key=" + c.APIKey +
-		"&api_action=linode.list")
+func (c *LinodeClient) APICall(query string) ([]byte, error) {
+	response, err := http.Get(API_ENDPOINT + "/?" + query)
 	if err != nil {
 		return nil, err
 	}
@@ -31,4 +31,11 @@ func (c *LinodeClient) ListLinodes() ([]byte, error) {
 		return nil, err
 	}
 	return body, nil
+}
+
+func (c *LinodeClient) ListLinodes() ([]byte, error) {
+	params := url.Values{}
+	params.Add("api_key", c.APIKey)
+	params.Add("api_action", "linode.list")
+	return c.APICall(query)
 }
