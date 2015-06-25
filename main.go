@@ -4,6 +4,8 @@ import (
 	"encoding/json"
 	"fmt"
 	"github.com/kelcecil/go-linode/api"
+	yaml "gopkg.in/yaml.v2"
+	"io/ioutil"
 )
 
 type LinodeSpec struct {
@@ -30,7 +32,28 @@ type Parameter struct {
 	REQUIRED    bool
 }
 
+type LinodeGenerateMetadata struct {
+	Avail map[string]LinodeAvail
+}
+
+type LinodeAvail struct {
+	Structname string
+	Type       string
+	Key        string
+	Value      string
+}
+
 func main() {
+	yamlFile, err := ioutil.ReadFile("./info.yaml")
+	if err != nil {
+		print(err.Error())
+	}
+	var metadata LinodeGenerateMetadata
+	err = yaml.Unmarshal(yamlFile, &metadata)
+	if err != nil {
+		print(err.Error())
+	}
+	fmt.Printf("%s\n", metadata.Avail["datacenters"].Structname)
 	client := api.NewLinodeClient()
 	response, err := client.GetSpec()
 	if err != nil {
@@ -41,7 +64,5 @@ func main() {
 	if err != nil {
 		print(err.Error())
 	}
-	for k, _ := range result.DATA.METHODS {
-		fmt.Printf("%s\n", k)
-	}
+	GenerateEnum(client, "avail.datacenters", metadata)
 }

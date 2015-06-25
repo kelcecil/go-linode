@@ -33,9 +33,13 @@ func (c *LinodeClient) APICall(query string) ([]byte, error) {
 	return body, nil
 }
 
-func (c *LinodeClient) GetSpec() ([]byte, error) {
-	params := ValuesWithActionAndKey(c.APIKey, "api.spec")
+func (c *LinodeClient) CallAction(action string) ([]byte, error) {
+	params := ValuesWithActionAndKey(c.APIKey, action)
 	return c.APICall(params.Encode())
+}
+
+func (c *LinodeClient) GetSpec() ([]byte, error) {
+	return c.CallAction("api.spec")
 }
 
 func (c *LinodeClient) ListLinodes() ([]byte, error) {
