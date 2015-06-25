@@ -11,7 +11,7 @@ type LinodeClient struct {
 }
 
 func NewLinodeClient() *LinodeClient {
-	return NewLinodeClient()
+	return NewLinodeClientWithKey(GetAPIKeyFromEnvironment())
 }
 
 func NewLinodeClientWithKey(apiKey string) *LinodeClient {
@@ -37,5 +37,5 @@ func (c *LinodeClient) ListLinodes() ([]byte, error) {
 	params := url.Values{}
 	params.Add("api_key", c.APIKey)
 	params.Add("api_action", "linode.list")
-	return c.APICall(query)
+	return c.APICall(params.Encode())
 }

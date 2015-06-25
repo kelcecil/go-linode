@@ -5,7 +5,7 @@ import (
 )
 
 func main() {
-	client := api.NewLinodeClientWithKey("xzDXtXFwWWxLlDSAWqmwT8p2YOxZy9qFt485srdmiY9dhKWQGYBevzdDRVFPaZ1G")
+	client := api.NewLinodeClient()
 	response, err := client.ListLinodes()
 	if err != nil {
 		print(err)
