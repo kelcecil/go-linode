@@ -1,6 +1,6 @@
 # go-linode
 
-This is intended to be an easy to use, fully API covering Linode API someday soon.
+go-linode is a WIP Golang library for working with the Linode API. The intent is to provide full coverage of the Linode API.
 
 More deets coming.
 
