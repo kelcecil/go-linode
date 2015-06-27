@@ -25,12 +25,12 @@ func GenerateEnum(client *api.LinodeClient, action string, metadata LinodeGenera
 	var result interface{}
 	err = json.Unmarshal(response, &result)
 	rows := result.(map[string]interface{})
-	tmpl, err := template.New("avail").Funcs(templateFunc).Parse(sourceTemplate)
+	tmpl, err := template.New("").Funcs(templateFunc).ParseFiles("./generate/datacenters.template")
 
 	if err != nil {
 		panic(err.Error())
 	}
-	err = tmpl.Execute(os.Stdout, rows)
+	err = tmpl.ExecuteTemplate(os.Stdout, "datacenters.template", rows)
 	if err != nil {
 		panic(err.Error())
 	}

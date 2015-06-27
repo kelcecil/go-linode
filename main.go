@@ -2,7 +2,6 @@ package main
 
 import (
 	"encoding/json"
-	"fmt"
 	"github.com/kelcecil/go-linode/api"
 	yaml "gopkg.in/yaml.v2"
 	"io/ioutil"
@@ -53,7 +52,6 @@ func main() {
 	if err != nil {
 		print(err.Error())
 	}
-	fmt.Printf("%s\n", metadata.Avail["datacenters"].Structname)
 	client := api.NewLinodeClient()
 	response, err := client.GetSpec()
 	if err != nil {
