@@ -62,5 +62,5 @@ func main() {
 	if err != nil {
 		print(err.Error())
 	}
-	GenerateEnum(client, "avail.datacenters", metadata)
+	GenerateEnum(client, "avail.distributions", metadata)
 }

@@ -24,3 +24,21 @@ func UpperCaseFirstLetter(name string) string {
 	letter := strings.ToUpper(string(name[0]))
 	return letter + name[1:]
 }
+
+func LabelVariableSafe(label string) string {
+	label = strings.Replace(label, " ", "_", -1)
+	label = strings.Replace(label, ".", "_", -1)
+	label = strings.Replace(label, "-", "_", -1)
+	return label
+}
+
+func GoSafeString(label string) string {
+	return UpperCaseFirstLetter(LabelVariableSafe(label))
+}
+
+func IntToBool(value float64) string {
+	if value == 0 {
+		return "false"
+	}
+	return "true"
+}
