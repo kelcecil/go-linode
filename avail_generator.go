@@ -15,10 +15,6 @@ var templateFunc = map[string]interface{}{
 	"GoSafeString":         api.GoSafeString,
 }
 
-const (
-	sourceTemplate = "package api\n\nconst (\n{{range $value := .DATA}}\t{{UpperCaseFirstLetter .ABBR}} = {{.DATACENTERID}}\n{{end}})"
-)
-
 // GenerateEnum ...
 func GenerateEnum(client *api.LinodeClient, action string, metadata LinodeGenerateMetadata) {
 	response, err := client.CallAction(action)

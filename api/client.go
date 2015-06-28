@@ -7,7 +7,8 @@ import (
 )
 
 type LinodeClient struct {
-	APIKey string
+	APIKey       string
+	batchEnabled bool
 }
 
 func NewLinodeClient() *LinodeClient {
@@ -20,7 +21,18 @@ func NewLinodeClientWithKey(apiKey string) *LinodeClient {
 	}
 }
 
-func (c *LinodeClient) APICall(query string) ([]byte, error) {
+func (c *LinodeClient) InitialValues(action string) url.Values {
+	params := url.Values{}
+	params.Add("api_key", c.APIKey)
+	params.Add("api_action", "linode.list")
+	return params
+}
+
+func (c *LinodeClient) HandleCall(query string) ([]byte, error) {
+	return c.ImmediateCall(query)
+}
+
+func (c *LinodeClient) ImmediateCall(query string) ([]byte, error) {
 	response, err := http.Get(API_ENDPOINT + "/?" + query)
 	if err != nil {
 		return nil, err
@@ -35,16 +47,5 @@ func (c *LinodeClient) APICall(query string) ([]byte, error) {
 
 func (c *LinodeClient) CallAction(action string) ([]byte, error) {
 	params := ValuesWithActionAndKey(c.APIKey, action)
-	return c.APICall(params.Encode())
-}
-
-func (c *LinodeClient) GetSpec() ([]byte, error) {
-	return c.CallAction("api.spec")
-}
-
-func (c *LinodeClient) ListLinodes() ([]byte, error) {
-	params := url.Values{}
-	params.Add("api_key", c.APIKey)
-	params.Add("api_action", "linode.list")
-	return c.APICall(params.Encode())
+	return c.HandleCall(params.Encode())
 }
