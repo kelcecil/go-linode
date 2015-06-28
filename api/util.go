@@ -36,9 +36,28 @@ func GoSafeString(label string) string {
 	return UpperCaseFirstLetter(LabelVariableSafe(label))
 }
 
+func StringOrNil(data interface{}) string {
+	if data != nil {
+		return data.(string)
+	}
+	return ""
+}
+
+func Integer(data interface{}) int {
+	return int(data.(float64))
+}
+
 func IntToBool(value float64) string {
 	if value == 0 {
 		return "false"
 	}
 	return "true"
+}
+
+func FloatToBoolean(value interface{}) bool {
+	value = value.(float64)
+	if value == 0 {
+		return false
+	}
+	return true
 }

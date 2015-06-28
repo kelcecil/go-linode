@@ -10,5 +10,5 @@ func main() {
 	if err != nil {
 		println(err.Error())
 	}
-	println(string(result))
+	println(result[0].BandwidthInEnabled)
 }
