@@ -7,6 +7,7 @@ import (
 )
 
 type LinodeClient struct {
+	APIEndpoint  string
 	APIKey       string
 	batchEnabled bool
 }
@@ -17,7 +18,8 @@ func NewLinodeClient() *LinodeClient {
 
 func NewLinodeClientWithKey(apiKey string) *LinodeClient {
 	return &LinodeClient{
-		APIKey: apiKey,
+		APIEndpoint: "https://api.linode.com",
+		APIKey:      apiKey,
 	}
 }
 
@@ -33,7 +35,7 @@ func (c *LinodeClient) HandleCall(query string) ([]byte, error) {
 }
 
 func (c *LinodeClient) ImmediateCall(query string) ([]byte, error) {
-	response, err := http.Get(API_ENDPOINT + "/?" + query)
+	response, err := http.Get(c.APIEndpoint + "/?" + query)
 	if err != nil {
 		return nil, err
 	}

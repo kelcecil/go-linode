@@ -6,15 +6,13 @@ type DataCenter struct {
 	Abbreviation 	string
 }
 
-const (
-	{{range $value := .DATA}}
-	{{UpperCaseFirstLetter .ABBR}} = DataCenter {
-		DataCenterId: {{.DATACENTERID}},
-		Location: "{{.LOCATION}}",
-		Abbreviation: "{{.ABBR}}",
-	}
-	{{end}}
-)
+{{range $value := .DATA}}
+var {{UpperCaseFirstLetter .ABBR}} = DataCenter {
+	DataCenterId: {{.DATACENTERID}},
+	Location: "{{.LOCATION}}",
+	Abbreviation: "{{.ABBR}}",
+}
+{{end}}
 
 var DataCenters = map[string]DataCenter {
 	{{range $value := .DATA}}"{{UpperCaseFirstLetter .ABBR}}": {{UpperCaseFirstLetter .ABBR}},

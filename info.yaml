@@ -1,6 +1,0 @@
-avail:
-  datacenters:
-    structname: DataCenters
-    type: enum
-    key: ABBR
-    value: DATACENTERID

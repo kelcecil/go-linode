@@ -1,66 +1,57 @@
 package main
 
 import (
+	"bytes"
 	"encoding/json"
 	"github.com/kelcecil/go-linode/api"
-	yaml "gopkg.in/yaml.v2"
+	"go/format"
 	"io/ioutil"
+	"text/template"
 )
 
-type LinodeSpec struct {
-	ERRORARRAY []string
-	DATA       SpecData
-	ACTION     string
-}
-
-type SpecData struct {
-	VERSION float64
-	METHODS map[string]Method
-}
-
-type Method struct {
-	DESCRIPTION string
-	PARAMETERS  map[string]Parameter
-	THROWS      string
-}
-
-type Parameter struct {
-	NAME        string
-	DESCRIPTION string
-	TYPE        string
-	REQUIRED    bool
-}
-
-type LinodeGenerateMetadata struct {
-	Avail map[string]LinodeAvail
-}
-
-type LinodeAvail struct {
-	Structname string
-	Type       string
-	Key        string
-	Value      string
+var templateFunc = map[string]interface{}{
+	"UpperCaseFirstLetter": api.UpperCaseFirstLetter,
+	"LabelVariableSafe":    api.LabelVariableSafe,
+	"IntToBool":            api.IntToBool,
+	"GoSafeString":         api.GoSafeString,
 }
 
 func main() {
-	yamlFile, err := ioutil.ReadFile("./info.yaml")
-	if err != nil {
-		print(err.Error())
-	}
-	var metadata LinodeGenerateMetadata
-	err = yaml.Unmarshal(yamlFile, &metadata)
-	if err != nil {
-		print(err.Error())
-	}
 	client := api.NewLinodeClient()
-	response, err := client.GetSpec()
+	templates := loadTemplates()
+	GenerateAvailData(client, templates, "avail.datacenters", "datacenters.template", "./api/datacenters.go")
+	GenerateAvailData(client, templates, "avail.distributions", "distributions.template", "./api/distributions.go")
+}
+
+func GenerateAvailData(client *api.LinodeClient, templates *template.Template, action string, tmpl string, fileDestination string) {
+	data, err := client.CallAction(action)
+	var buf bytes.Buffer
 	if err != nil {
-		print(err)
+		return
 	}
-	var result LinodeSpec
-	err = json.Unmarshal(response, &result)
+	spec := struct {
+		DATA interface{}
+	}{
+		nil,
+	}
+	json.Unmarshal(data, &spec)
+	err = templates.ExecuteTemplate(&buf, tmpl, spec)
 	if err != nil {
-		print(err.Error())
+		println(err.Error())
 	}
-	GenerateEnum(client, "avail.distributions", metadata)
+	finalSource, err := format.Source(buf.Bytes())
+	if err != nil {
+		println(err.Error())
+		return
+	}
+	ioutil.WriteFile(fileDestination, finalSource, 0777)
+	println(string(finalSource))
+}
+
+func loadTemplates() *template.Template {
+	tmpl, err := template.New("").Funcs(templateFunc).ParseGlob("./generate/*.template")
+	if err != nil {
+		panic(err.Error())
+	}
+	return tmpl
 }

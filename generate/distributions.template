@@ -9,25 +9,23 @@ type Distribution struct {
 	Label				string
 	MinimumImageSize 	int
 	DistributionId		int
-	CreateDateTime		time.Date
+	CreateDateTime		time.Time
 	RequiresVopsKernel	bool
 }
 
-const (
-	{{range $value := .DATA}}
-	{{GoSafeString .LABEL}}_Time, _ = time.Parse("{{.CREATE_DT}}", "2007-04-18 00:00:00.0")
-	{{GoSafeString .LABEL}} = Distribution {
-		Is64Bit: {{IntToBool .IS64BIT }},
-		Label: "{{GoSafeString .LABEL}}",
-		MinimmumImageSize: {{.MINIMAGESIZE}},
-		DistributionId: {{.DISTRIBUTIONID}},
-		CreateDateTime: {{GoSafeString .LABEL}}_Time,
-		RequiresVopsKernel: {{IntToBool .REQUIRESPVOPSKERNEL}},
-	}
-	{{end}}
-)
+{{range $value := .DATA}}
+var {{GoSafeString .LABEL}}_Time, _ = time.Parse("2007-04-18 00:00:00.0", "{{.CREATE_DT}}")
+var {{GoSafeString .LABEL}} = Distribution {
+	Is64Bit: {{IntToBool .IS64BIT }},
+	Label: "{{GoSafeString .LABEL}}",
+	MinimumImageSize: {{.MINIMAGESIZE}},
+	DistributionId: {{.DISTRIBUTIONID}},
+	CreateDateTime: {{GoSafeString .LABEL}}_Time,
+	RequiresVopsKernel: {{IntToBool .REQUIRESPVOPSKERNEL}},
+}
+{{end}}
 
-var Distribution = map[string]Distribution {
+var Distributions = map[string]Distribution {
 	{{range $value := .DATA}}"{{GoSafeString .LABEL}}": {{GoSafeString .LABEL}},
 	{{end}}}
 
