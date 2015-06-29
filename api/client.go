@@ -1,6 +1,7 @@
 package api
 
 import (
+	"encoding/json"
 	"io/ioutil"
 	"net/http"
 	"net/url"
@@ -50,4 +51,34 @@ func (c *LinodeClient) ImmediateCall(query string) ([]byte, error) {
 func (c *LinodeClient) CallAction(action string) ([]byte, error) {
 	params := ValuesWithActionAndKey(c.APIKey, action)
 	return c.HandleCall(params.Encode())
+}
+
+func GetRawJson(response []byte) (json.RawMessage, error) {
+	topJson := struct {
+		ACTION string
+		DATA   json.RawMessage
+	}{
+		"",
+		nil,
+	}
+	err := json.Unmarshal(response, &topJson)
+	if err != nil {
+		return nil, err
+	}
+	return topJson.DATA, nil
+}
+
+func GetRawJsons(response []byte) ([]json.RawMessage, error) {
+	topJson := struct {
+		ACTION string
+		DATA   []json.RawMessage
+	}{
+		"",
+		nil,
+	}
+	err := json.Unmarshal(response, &topJson)
+	if err != nil {
+		return nil, err
+	}
+	return topJson.DATA, nil
 }
