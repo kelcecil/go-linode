@@ -4,14 +4,14 @@ package api
 // Don't directly modify this file.
 
 type DataCenter struct {
-	DataCenterId 	int
+	Id 	int
 	Location 		string
 	Abbreviation 	string
 }
 
 {{range $value := .DATA}}
 var {{UpperCaseFirstLetter .ABBR}} = DataCenter {
-	DataCenterId: {{.DATACENTERID}},
+	Id: {{.DATACENTERID}},
 	Location: "{{.LOCATION}}",
 	Abbreviation: "{{.ABBR}}",
 }

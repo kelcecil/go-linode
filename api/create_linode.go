@@ -11,10 +11,10 @@ type CreateLinodeRequest struct {
 }
 
 // SetDataCenter ... Use DataCenter object to set DataCenter.
-/*func (c *CreateLinodeRequest) SetDataCenter(dc DataCenter) *CreateLinodeRequest {
-	c.DataCenterId = dc.DataCenterId
+func (c *CreateLinodeRequest) SetDataCenter(dc DataCenter) *CreateLinodeRequest {
+	c.DataCenterId = dc.Id
 	return c
-}*/
+}
 
 func (c *CreateLinodeRequest) SetPlan() *CreateLinodeRequest {
 	return c

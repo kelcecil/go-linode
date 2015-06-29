@@ -21,6 +21,7 @@ func main() {
 	templates := loadTemplates()
 	GenerateAvailData(client, templates, "avail.datacenters", "datacenters.template", "./api/datacenters.go")
 	GenerateAvailData(client, templates, "avail.distributions", "distributions.template", "./api/distributions.go")
+	GenerateAvailData(client, templates, "avail.linodeplans", "plans.template", "./api/plans.go")
 }
 
 func GenerateAvailData(client *api.LinodeClient, templates *template.Template, action string, tmpl string, fileDestination string) {
