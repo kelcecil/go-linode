@@ -1,0 +1,19 @@
+{
+	"name": "ResizeLinode",
+	"action": "linode.resize",
+	"input": {
+		"LinodeId": {
+			"name": "LinodeID",
+			"type": "int",
+			"required": true
+		},
+		"PlanId": {
+			"name": "PlanID",
+			"type": "int",
+			"required": true,
+			"relates": "plan"
+		}
+	},
+	"output": {
+	}
+}

@@ -1,0 +1,39 @@
+{
+	"name": "CloneLinode",
+	"action": "linode.clone",
+	"input": {
+		"LinodeId": {
+			"name": "LinodeID",
+			"type": "int",
+			"required": true
+		},
+		"DataCenterId": {
+			"name": "DatacenterId",
+			"type": "int",
+			"required": true,
+			"relates": "datacenter"
+		},
+		"PlanId": {
+			"name": "PlanID",
+			"type": "int",
+			"required": true,
+			"relates": "plan"
+		},
+		"PaymentTerm": {
+			"name": "PaymentTerm",
+			"type": "int",
+			"required": false,
+		},
+		"Hypervisor": {
+			"name": "hypervisor",
+			"type": "string",
+			"required": false
+		}
+	},
+	"output": {
+		"JobId": {
+			"name": "JobID",
+			"type": "int"
+		}
+	}
+}

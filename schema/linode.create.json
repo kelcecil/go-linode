@@ -1,0 +1,29 @@
+{
+	"name": "CreateLinode",
+	"action": "linode.create",
+	"input": {
+		"DataCenterId": {
+			"name": "DatacenterId",
+			"type": "int",
+			"required": true,
+			"relates": "datacenter"
+		},
+		"PlanId": {
+			"name": "PlanID",
+			"type": "int",
+			"required": true,
+			"relates": "plan"
+		},
+		"PaymentTerm": {
+			"name": "PaymentTerm",
+			"type": "int",
+			"required": false,
+		}
+	},
+	"output": {
+		"LinodeId": {
+			"name": "LinodeID",
+			"type": "int"
+		}
+	}
+}

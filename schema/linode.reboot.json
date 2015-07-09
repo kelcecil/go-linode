@@ -1,0 +1,22 @@
+{
+	"name": "RebootLinode",
+	"action": "linode.reboot",
+	"input": {
+		"LinodeId": {
+			"name": "LinodeID",
+			"type": "int",
+			"required": true
+		},
+		"ConfigId": {
+			"name": "ConfigID",
+			"type": "int",
+			"required": false
+		}
+	},
+	"output": {
+		"JobId": {
+			"name": "JobID",
+			"type": "int"
+		}
+	}
+}

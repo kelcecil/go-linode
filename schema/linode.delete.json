@@ -1,0 +1,22 @@
+{
+	"name": "DeleteLinode",
+	"action": "linode.delete",
+	"input": {
+		"LinodeId": {
+			"name": "LinodeID",
+			"type": "int",
+			"required": true
+		},
+		"SkipChecks": {
+			"name": "skipChecks",
+			"type": "bool",
+			"required": false
+		}
+	},
+	"output": {
+		"LinodeId": {
+			"name": "LinodeID",
+			"type": "int"
+		}
+	}
+}

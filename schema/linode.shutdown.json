@@ -1,0 +1,17 @@
+{
+	"name": "ShutdownLinode",
+	"action": "linode.shutdown",
+	"input": {
+		"LinodeId": {
+			"name": "LinodeID",
+			"type": "int",
+			"required": true
+		}
+	},
+	"output": {
+		"JobId": {
+			"name": "JobID",
+			"type": "int"
+		}
+	}
+}
